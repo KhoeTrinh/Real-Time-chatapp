@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 // define model schema
 const userSchema = new mongoose.Schema({
-    fullName: {
+    fullname: {
         type: String,
         required: true,
     },
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ['Male', 'Female', 'Other'],
+        enum: ['Male', 'Female'],
         required: true,
     },
     profilePic: {

@@ -15,6 +15,9 @@ import connectDB from './config/db.js'
 
 connectDB()
 
+// middleware
+app.use(express.json())
+
 // routes
 import authRoutes from './routes/authRoutes.js';
 
