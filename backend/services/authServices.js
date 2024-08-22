@@ -1,5 +1,10 @@
+// import model
 import User from '../models/userModels.js';
 
+// import bcrypt for password hashing
+import bcryptjs from 'bcryptjs';
+
+// signup service
 const signupS = async (
     fullname,
     username,
@@ -7,39 +12,52 @@ const signupS = async (
     confirmPassword,
     gender
 ) => {
-    let resData;
     try {
+        if (
+            !fullname ||
+            !username ||
+            !password ||
+            !confirmPassword ||
+            !gender
+        ) {
+            return {
+                status: 400,
+                json: { message: 'All fields are required.' },
+            };
+        }
+
         if (password !== confirmPassword) {
-            resData = {
+            return {
                 status: 400,
                 json: { message: 'Passwords do not match.' },
             };
-            return resData;
         }
 
         const user = await User.findOne({ username });
-
         if (user) {
-            resData = {
+            return {
                 status: 400,
                 json: { message: 'Username already exists.' },
             };
-            return resData;
         }
 
-        const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
-        const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
+        const salt = await bcryptjs.genSalt(10);
+        const hassed = await bcryptjs.hash(password, salt);
+
+        const genders = gender === 'Male' ? 'boy' : 'girl';
+        const profilePic =
+            process.env.PROFILE_PIC_URL + genders + `/${username}`;
 
         const newUser = new User({
-            fullname: fullname,
-            username: username,
-            password: password,
-            gender: gender,
-            profilePic: gender === 'Male' ? boyProfilePic : girlProfilePic,
+            fullname,
+            username,
+            password: hassed,
+            gender,
+            profilePic,
         });
-
         await newUser.save();
-        resData = {
+
+        return {
             status: 201,
             json: {
                 _id: newUser._id,
@@ -47,16 +65,60 @@ const signupS = async (
                 username: newUser.username,
                 profilePic: newUser.profilePic,
             },
+            id: newUser._id,
         };
-        return resData;
     } catch (err) {
-        console.log('Error in signup controller:', err.message);
-        resData = {
+        console.error(err);
+        return {
             status: 500,
-            json: { error: 'Server error' },
+            json: { message: 'Internal Server Error.' },
         };
-        return resData;
     }
 };
 
-export { signupS };
+// login service
+const loginS = async (username, password) => {
+    try {
+        const user = await User.findOne({ username });
+        const isTruePass = await bcryptjs.compare(
+            password,
+            user?.password || ''
+        );
+
+        if ((!user, !isTruePass)) {
+            return {
+                status: 401,
+                json: { message: 'Invalid username or password' },
+            };
+        }
+
+        return {
+            status: 200,
+            json: {
+                _id: user._id,
+                fullname: user.fullname,
+                username: user.username,
+                profilePic: user.profilePic,
+            },
+            id: user._id,
+        };
+    } catch (err) {
+        console.error(err);
+        return { status: 500, json: { message: 'Server error' } };
+    }
+};
+
+// logout service
+const logoutS = async () => {
+    try {
+        return (
+            { status: 200, json: { message: 'Logout successfully' } }
+        );
+    } catch (err) {
+        console.log(err);
+        return { status: 500, json: { message: 'Server Error' } };
+    }
+};
+
+// export services
+export { signupS, loginS, logoutS };
