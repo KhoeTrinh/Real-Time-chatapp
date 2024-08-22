@@ -1,3 +1,4 @@
+// import Services and cookie func
 import { signupS, loginS, logoutS } from '../services/authServices.js';
 import generateToken from '../utils/createToken.js';
 
@@ -23,7 +24,7 @@ const login = async (req, res) => {
     generateToken(resData.id, res);
     res.status(resData.status).json(resData.json);
 };
-//
+
 // logout func
 const logout = async (req, res) => {
     res.cookie('jwt', '', { maxAge: 0 });

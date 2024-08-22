@@ -2,7 +2,7 @@
 import mongoose from 'mongoose';
 
 // define schema
-const conversationSchema = mongoose.Schemam(
+const conversationSchema = mongoose.Schema(
     {
         participants: [
             {

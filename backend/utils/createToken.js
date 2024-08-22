@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 // create cookie func
 const generateToken = (userId, res) => {
     const token = jwt.sign({ userId }, process.env.JWT_SECRET, {
-        expiresIn: '30d',
+        expiresIn: '15d',
     });
 
     res.cookie('jwt', token, {
@@ -13,7 +13,9 @@ const generateToken = (userId, res) => {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
     });
+
+    return token
 };
 
 // export cookie func
-export default generateToken;
+export default generateToken

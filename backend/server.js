@@ -16,12 +16,17 @@ import connectDB from './config/db.js'
 connectDB()
 
 // middleware
+import cookieParser from 'cookie-parser';
+
 app.use(express.json())
+app.use(cookieParser())
 
 // routes
 import authRoutes from './routes/authRoutes.js';
+import messageRoutes from './routes/messageRoutes.js';
 
 app.use('/api/auth', authRoutes);
+app.use('/api/message', messageRoutes);
 
 // run express server
 app.listen(port, () =>
