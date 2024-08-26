@@ -30,9 +30,9 @@ const useSignup = () => {
                 body: JSON.stringify({
                     fullname,
                     username,
-                    password,
+                    password,  
                     confirmPassword,
-                    gender,
+                    gender,  
                 }),
             });
 
