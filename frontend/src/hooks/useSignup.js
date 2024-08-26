@@ -30,13 +30,14 @@ const useSignup = () => {
                 body: JSON.stringify({   
                     fullname,  
                     username,
-                    password,     
+                    password,
                     confirmPassword,
-                    gender,  
+                    gender,
                 }),
             });
 
             const data = await res.json();
+            console.log(data);
         } catch (err) {
             toast.error(err.message);
         } finally {
