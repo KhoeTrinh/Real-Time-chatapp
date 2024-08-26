@@ -27,10 +27,10 @@ const useSignup = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    fullname,
+                body: JSON.stringify({   
+                    fullname,  
                     username,
-                    password,  
+                    password,     
                     confirmPassword,
                     gender,  
                 }),
