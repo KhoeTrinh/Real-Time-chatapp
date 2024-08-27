@@ -18,9 +18,9 @@ const useSignup = () => {
             confirmPassword,
             gender,
         });
-        if (!success) return;
+        if (!success) return; 
 
-        setLoading(true);
+        setLoading(true); 
         try {
             const res = await fetch('/api/auth/signup', {
                 method: 'POST',
