@@ -36,9 +36,9 @@ const useSignup = () => {
                 }),
             });
 
-            const data = await res.json();
+            const data = await res.json(); 
             console.log(data);
-        } catch (err) {
+        } catch (err) { 
             toast.error(err.message);
         } finally {
             setLoading(false);
