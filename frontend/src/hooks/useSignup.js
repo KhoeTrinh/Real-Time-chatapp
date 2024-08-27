@@ -29,9 +29,9 @@ const useSignup = () => {
                 },
                 body: JSON.stringify({   
                     fullname,  
-                    username,
-                    password,
-                    confirmPassword,
+                    username,  
+                    password,  
+                    confirmPassword,  
                     gender,
                 }),
             });
