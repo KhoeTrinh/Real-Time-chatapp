@@ -15,11 +15,11 @@ const Signup = () => {
     const {loading, signup} = useSignup()
 
     const handleCheckboxChange = (gender) => {
-        setInputs({ ...inputs, gender });
+        setInputs({ ...inputs, gender });  
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (e) => {  
+        e.preventDefault();  
         await signup(inputs)  
     };
 
